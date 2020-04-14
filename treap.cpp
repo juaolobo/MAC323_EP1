@@ -77,13 +77,13 @@ nodeTR* treap::put(nodeTR* raiz, string chave, int valor) {
 
 }
 
-int treap::get(nodeTR* raiz, string chave) {
+nodeTR* treap::get(nodeTR* raiz, string chave) {
 
 	if (raiz == nullptr)
-		return 0;
+		return raiz;
 
 	if (raiz->chave == chave)
-		return raiz->valor;
+		return raiz;
 
 	if (raiz->chave > chave)
 		return get(raiz->esq, chave);
@@ -223,7 +223,10 @@ int treap::rank(string chave) {
 
 int treap::devolve(string chave) {
 
-	return get(raiz, chave);
+	nodeTR* aux = get(raiz, chave);
+	if (aux	== nullptr)
+		return 0;
+	return aux->valor;
 }
 
 void treap::remove(string chave) {

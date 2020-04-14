@@ -40,13 +40,13 @@ nodeBin* arvoreBin::put(nodeBin* raiz, string chave, int valor) {
 	return raiz;
 }	
 
-int arvoreBin::get(nodeBin* raiz, string chave) {
+nodeBin* arvoreBin::get(nodeBin* raiz, string chave) {
 
 	if (raiz == nullptr)
-		return 0;
+		return raiz;
 
 	if (raiz->chave == chave)
-		return raiz->valor;
+		return raiz;
 
 	if (raiz->chave > chave)
 		return get(raiz->esq, chave);
@@ -83,6 +83,7 @@ nodeBin* arvoreBin::apaga(nodeBin* raiz, string chave) {
 
 	else {
 		n--;
+		cout << chave << endl;
 		if (raiz->esq == nullptr){
 			aux = raiz->dir;
 			delete raiz;
@@ -96,6 +97,7 @@ nodeBin* arvoreBin::apaga(nodeBin* raiz, string chave) {
 			raiz = nullptr;
 			return aux;
 		}
+
 		else {
 			aux = maximo(raiz->esq);
 			raiz->valor = aux->valor;
@@ -144,6 +146,7 @@ arvoreBin::arvoreBin(string nome_arquivo) {
 		}
 	}
 	file.close();
+	cout <<  n << endl;
 }
 
 arvoreBin::~arvoreBin() {
@@ -152,7 +155,6 @@ arvoreBin::~arvoreBin() {
 }
 
 void arvoreBin::insere(string chave, int valor) {
-
 
 	raiz = put(raiz, chave, valor);
 }
@@ -181,12 +183,16 @@ int arvoreBin::rank(string chave) {
 
 int arvoreBin::devolve(string chave) {
 
-	return get(raiz, chave);
+	nodeBin* aux = get(raiz, chave);
+	if (aux == nullptr)
+		return 0;
+	return aux->valor;
 }
 
 void arvoreBin::remove(string chave) {
 
 	raiz = apaga(raiz, chave);
+	print(raiz);
 }
 
 string arvoreBin::seleciona(int k) {
@@ -197,4 +203,13 @@ string arvoreBin::seleciona(int k) {
 
 	return select(raiz, k)->chave;
 
+}
+
+void arvoreBin::print(nodeBin* raiz) {
+
+	if (raiz == nullptr)
+		return ;
+	cout << raiz->chave << endl;
+	print(raiz->dir);
+	print(raiz->esq);
 }

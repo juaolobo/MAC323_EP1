@@ -161,11 +161,12 @@ class arvoreBin {
 		int n;
 		void deleteTree(nodeBin* raiz);
 		nodeBin* put(nodeBin* raiz, string chave, int valor);
-		int get(nodeBin* raiz, string chave);
+		nodeBin* get(nodeBin* raiz, string chave);
 		int tamanho(nodeBin* raiz);
 		nodeBin* maximo(nodeBin* raiz);
 		nodeBin* apaga(nodeBin* raiz, string chave);
 		nodeBin* select(nodeBin* raiz, int k);
+		void print(nodeBin* raiz);
 
 	public:
 		arvoreBin(string nome_arquivo);
@@ -199,7 +200,7 @@ class treap {
 		nodeTR* rotEsq(nodeTR* raiz);
 		void deleteTree(nodeTR* raiz);
 		nodeTR* put(nodeTR* raiz, string chave, int valor);
-		int get(nodeTR* raiz, string chave);
+		nodeTR* get(nodeTR* raiz, string chave);
 		int tamanho(nodeTR* raiz);
 		nodeTR* maximo(nodeTR* raiz);
 		nodeTR* apaga(nodeTR* raiz, string chave);
@@ -238,9 +239,9 @@ class arvore23 {
 		int n;
 		void deleteTree(node23* raiz);
 		node23* put(node23* raiz, string chave, int valor, bool& cresceu);
-		node23* apaga(node23* raiz, string chave);
-		node23* busca(node23* raiz, string chave);
 		int tamanho(node23* raiz);
+		node23* apaga(node23* raiz, string chave);
+		node23* get(node23* raiz, string chave);
 		node23* minimo(node23* raiz);
 
 	public:
@@ -277,13 +278,15 @@ class arvoreRN {
 		nodeRN* raiz;
 		int n;
 		void deleteTree(nodeRN* raiz);
+		nodeRN* rotDir(nodeRN* raiz);
+		nodeRN* rotEsq(nodeRN* raiz);
 		nodeRN* put(nodeRN* raiz, string chave, int valor);
-		int get(nodeRN* raiz, string chave);
+		nodeRN* get(nodeRN* raiz, string chave);
 		int tamanho(nodeRN* raiz);
 		nodeRN* maximo(nodeRN* raiz);
 		nodeRN* apaga(nodeRN* raiz, string chave);
 		nodeRN* select(nodeRN* raiz, int k);
-		void print(node23* raiz);
+		void print(nodeRN* raiz);
 
 	public:
 		arvoreRN(string nome_arquivo);

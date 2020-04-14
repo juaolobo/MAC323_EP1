@@ -1,6 +1,7 @@
 CFLAGS = -Wall -g -O0
 CC = g++
 OBJS = tabeladesimbolos.o util.o unit_test.o vetorDes.o vetorOrd.o listaDes.o listaOrd.o arvoreBin.o treap.o arvore23.o arvoreRN.o
+RM = rm
 
 
 unit_test : $(OBJS)
@@ -8,3 +9,6 @@ unit_test : $(OBJS)
 	
 %.o : %.cpp tabeladesimbolos.hpp
 	$(CC) $(CFLAGS) -c $<
+
+clean :
+	$(RM) *.o

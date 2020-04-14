@@ -298,12 +298,13 @@ node23* arvore23::apaga(node23* raiz, string chave) {
 				return raiz;
 			}
 		}
-		else if (raiz->ehFolha() && raiz->info1.getChave() == chave)
+		else if (raiz->ehFolha() && raiz->info1.getChave() == chave){
+			n--;
 			p = raiz;
+		}
 
 		else if (!raiz->ehFolha() && raiz->info2.getChave() == chave) {
 			p = minimo(raiz->ap3);
-
 			// o minimo ja esta na info1
 			if (p->doisno) {
 				raiz->info1.setChave(p->info1.getChave());
@@ -319,8 +320,10 @@ node23* arvore23::apaga(node23* raiz, string chave) {
 			}
 		}
 
-		else if (raiz->ehFolha() && raiz->info2.getChave() == chave)
+		else if (raiz->ehFolha() && raiz->info2.getChave() == chave){
+			n--;
 			p = raiz;
+		}
 	}
 	else {
 		if (raiz->info1.getChave() > chave){
@@ -351,8 +354,10 @@ node23* arvore23::apaga(node23* raiz, string chave) {
 				return raiz;
 			}
 		}	
-		else if (raiz->ehFolha() && raiz->info1.getChave() == chave)
+		else if (raiz->ehFolha() && raiz->info1.getChave() == chave) {
+			n--;
 			p = raiz;
+		}
 	}
 
 	/* -------------------------------------------------------- */
@@ -369,7 +374,7 @@ node23* arvore23::apaga(node23* raiz, string chave) {
 		return raiz;
 	}
 
-	else { // 2 no
+	else { // se o que vc quer remover eh 2 no
 		node23* irmao;
 		if (p->pai->ap1 == p) {
 
@@ -427,10 +432,11 @@ node23* arvore23::apaga(node23* raiz, string chave) {
 					aux = p->pai;
 					delete p;
 					p = aux;
-
-					while (p->pai != nullptr) {	
+				// precisa das checagens dnv pq p muda conforme o rearranjo da arvore
+					while (p->pai != nullptr) {	 
 
 						if (!p->pai->doisno) {
+
 							 if (p == p->pai->ap1) {
 								p->pai->ap2->info2.setChave(p->pai->ap2->info1.getChave());
 								p->pai->ap2->info2.setValor(p->pai->ap2->info1.getValor());
@@ -485,13 +491,14 @@ node23* arvore23::apaga(node23* raiz, string chave) {
 
 								p->pai->ap3 = nullptr;
 							}
+							
 							aux = p->pai;
 							delete p;
 							return aux;
 						}
 
 						if (p->pai->ap1 == p){
-							p->pai->ap1 = irmao;
+							p->pai->ap1 = irmao; // irmao do loop anterior
 							irmao = p->pai->ap2;
 							p->pai->ap1->pai = irmao;
 							irmao->ap3 = irmao->ap2;
@@ -505,7 +512,7 @@ node23* arvore23::apaga(node23* raiz, string chave) {
 
 						}
 						else if (p->pai->ap2 == p){
-							p->pai->ap2 = irmao;
+							p->pai->ap2 = irmao; // irmao do loop anterior
 							irmao = p->pai->ap1;
 							p->pai->ap2->pai = irmao;
 							irmao->ap3 = p->pai->ap2;
@@ -743,29 +750,28 @@ node23* arvore23::apaga(node23* raiz, string chave) {
 	return raiz;
 }
 
-node23* arvore23::busca(node23* raiz, string chave) {
+node23* arvore23::get(node23* raiz, string chave) {
 
 	if (raiz == nullptr)
 		return nullptr;
 
-	cout << raiz->info1.getChave() << endl;
 	if (raiz->doisno) {
 		if (raiz->info1.getChave() == chave)
 			return raiz;
 		else if (raiz->info1.getChave() > chave)
-			return busca(raiz->ap1, chave);
+			return get(raiz->ap1, chave);
 		else
-			return busca(raiz->ap2, chave);
+			return get(raiz->ap2, chave);
 	}
 	else {
 		if (raiz->info1.getChave() == chave || raiz->info2.getChave() == chave)
 			return raiz;
 		else if (raiz->info1.getChave() > chave)
-			return busca(raiz->ap1, chave);
+			return get(raiz->ap1, chave);
 		else if (raiz->info1.getChave() < chave && raiz->info2.getChave() > chave)
-			return busca(raiz->ap2, chave);
+			return get(raiz->ap2, chave);
 		else 
-			return busca(raiz->ap3, chave);
+			return get(raiz->ap3, chave);
 	}
 
 }
@@ -860,7 +866,8 @@ int arvore23::rank(string chave) {
 }
 
 int arvore23::devolve(string chave) {
-	node23* ret = busca(raiz, chave);
+	
+	node23* ret = get(raiz, chave);
 	if (ret == nullptr)
 		return 0;	
 
@@ -871,6 +878,7 @@ int arvore23::devolve(string chave) {
 
 void arvore23::remove(string chave) {
 	raiz = apaga(raiz, chave);
+	cout << n << endl;
 }
 
 string arvore23::seleciona(int k) {
